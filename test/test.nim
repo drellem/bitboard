@@ -1,3 +1,5 @@
+import os
+
 # Tests bitboard.nim
 
 import bitboard
@@ -71,13 +73,24 @@ proc countCells(b : ptr Board) : int =
         count = count + 1
   return count
 
+proc printGrid(b : ptr Board)  =
+  for i in 0..7:
+    for j in 0..7:
+      stdout.write(if b.getCell(i, j): 1 else: 0, " ")
+    stdout.writeLine("")
+
+
 bitboard1.zero()
 
 bitboard1.radius(3, 6, 1)
+echo "Radius 1"
+bitboard1.printGrid()
 assert bitboard1.countCells() == 8
 
 bitboard1.zero()
 bitboard1.radius(3, 6, 2)
+echo "Radius 2"
+bitboard1.printGrid()
 assert bitboard1.countCells() == 5
 
 # Free the memory
