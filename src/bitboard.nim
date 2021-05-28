@@ -17,7 +17,7 @@ const WORD_LEN* = 8 # size of bitboard is 2^BIT_LEN
 const BIT_LEN* = 256 # todo import math and use "proc(2, WORD_LEN)"
 const INT_SZ* = 32 # number of bits in an int
 
-type Board = array[WORD_LEN, uint]
+type Board* = array[WORD_LEN, uint]
 
 proc newBitboard*() : ptr Board =
   # Allocates a a new Bitboard.
