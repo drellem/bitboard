@@ -1,0 +1,74 @@
+import bitops
+
+# Type alias for a BitBoard256
+# typedef BitBoard256 = [0..7, uint]
+
+const WORD_LEN = 8 # size of bitboard is 2^BIT_LEN
+const BIT_LEN = 256 # todo import math and use "proc(2, WORD_LEN)"
+
+var bb : array[WORD_LEN, uint]
+var bb2 : array[WORD_LEN, uint]
+
+var bitboard = addr(bb)
+var bitboard2 = addr(bb2)
+
+# initialize
+
+for i in 0..WORD_LEN-1:
+  bitboard[i] = 0
+  bitboard2[i] = 0
+
+proc get(i : int, b :  ptr array[WORD_LEN, uint] ) : bool  =
+  # gets the kth value from the bitboard
+  if(i < 0 or i >= BIT_LEN):
+    echo "Invalid var i = ", i
+    return false
+  var word = i div 32
+  var bit = i mod 32
+  return b[word].testBit(bit)
+
+proc set(i : int, val : bool, b : ptr array[WORD_LEN, uint] ) : void =
+  if(i < 0 or i >= BIT_LEN):
+    echo "Invalid var i = ", i
+    return
+  var word = i div 32
+  var bit = i mod 32
+  var wordVal = b[word]
+  if(val):
+    wordVal.setBit(bit)
+  else:
+    wordVal.clearBit(bit)
+  b[word] = wordVal
+
+proc bbOr(b : ptr array[WORD_LEN, uint], b2 : ptr array[WORD_LEN, uint]): array[WORD_LEN, uint] =
+    var ret : array[WORD_LEN, uint]
+    for i in 0..WORD_LEN-1:
+      ret[i] = b[i] or b2[i]
+    return ret
+
+proc bbAnd(b : ptr array[WORD_LEN, uint], b2 : ptr array[WORD_LEN, uint]): array[WORD_LEN, uint] =
+    var ret : array[WORD_LEN, uint]
+    for i in 0..WORD_LEN-1:
+      ret[i] = b[i] and b2[i]
+    return ret
+  
+
+set(64, true, bitboard)
+echo "Bitboard 1 @64", get(64, bitboard)
+set(65, true, bitboard2)
+echo "Bitboard 2 @65", get(65, bitboard2)
+
+bb = bbOr(bitboard, bitboard2)
+bb2 = bbAnd(bitboard, bitboard2)
+
+for i in 64..65:
+  echo "Bitboard 1 @", i, " = ", get(i, bitboard)
+  echo "Bitboard 2 @", i, " = ", get(i, bitboard2)
+
+#for i in 0..BIT_LEN-1:
+#  echo "Bitboard 1 @", i, "= ", get(i, bitboard)
+#for i in 0..BIT_LEN-1:
+#  echo "Bitboard 2 @", i, "= ", get(i, bitboard2)
+  
+
+  
