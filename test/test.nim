@@ -19,8 +19,8 @@ bitboard2.set(65, true)
 
 # Do some operations
 
-bitboard1.bbOr(bitboard2)
-bitboard2.bbAnd(bitboard1)
+bitboard1 |= bitboard2
+bitboard2 &= bitboard1
 
 # Test basic functionality
 

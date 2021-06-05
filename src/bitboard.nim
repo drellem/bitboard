@@ -49,14 +49,17 @@ proc set*(b : ptr Board, i : int, val : bool ) : void =
     wordVal.clearBit(bit)
   b[word] = wordVal
 
-proc bbOr*(b : ptr Board, b2 : ptr Board) =
+proc `|=`*(b : ptr Board, b2 : ptr Board) =
   # Takes the union of the two bitboards and stores in the first
   for i in 0..WORD_LEN-1:
     b[i] = b[i] or b2[i]
 
-proc bbAnd*(b : ptr Board, b2 : ptr Board) =
+proc `&=`*(b : ptr Board, b2 : ptr Board) =
   # Takes the intersection of the two bitboards and stores in the first
   for i in 0..WORD_LEN-1:
     b[i] = b[i] and b2[i]
 
-  
+proc `!=`*(b : ptr Board) =
+  ## Inverts the bitboard
+  for i in 0..WORD_LEN-1:
+    b[i] = bitnot(b[i])
